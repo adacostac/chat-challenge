@@ -1,0 +1,10 @@
+@if(!chatWithBoot()) {
+<div class="boot-card" (click)="goToChat()">
+  <div class="message-info">¡Hola, soy Jhon! ¿Hablamos de chatboots?</div>
+  <div class="profile-photo">
+    <img src="./avatar.png" alt="" height="45" />
+  </div>
+</div>
+} @else {
+<app-chat></app-chat>
+}

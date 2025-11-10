@@ -1,0 +1,16 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 5px);
+  background-color: #f6f6f8;
+}
+
+.header,
+.footer {
+  flex: 0 0 auto;
+}
+
+.section {
+  flex: 1 1 auto;
+  overflow: auto; /* añade scroll si el contenido supera la altura */
+}
