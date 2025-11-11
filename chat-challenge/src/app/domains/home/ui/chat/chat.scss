@@ -1,69 +1,8 @@
-.chat-container {
-  width: 350px;
-  height: 480px;
-  border: 1px solid #e9e9e9;
-}
-
-.chat-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 50px;
-  background-color: #cb3232;
-  padding: 10px;
-
-  &__boot-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  &__icon {
-    color: #ffffff;
-    cursor: pointer;
-  }
-
-  &__header--info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  &__header--info-name {
-    color: white;
-  }
-
-  &__avatar {
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
-    overflow: hidden;
-  }
-}
-
-.chat-content {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  height: 270px;
-  border: 1px solid #e9e9e9;
-  overflow: auto;
-  padding: 10px;
-
-  &__message {
-    background-color: #e1dcdc;
-    border-bottom-left-radius: 20px;
-    border-top-right-radius: 20px;
-    padding: 20px;
-    max-width: 250px;
-  }
-
-  &__user-message {
-    background-color: #ffeaea;
-    border-bottom-left-radius: 20px;
-    border-top-right-radius: 20px;
-    align-self: flex-end;
-  }
+.user-message {
+  background-color: #d4d4d4;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 20px;
+  align-self: flex-end;
 }
 
 .chat-suggestions {

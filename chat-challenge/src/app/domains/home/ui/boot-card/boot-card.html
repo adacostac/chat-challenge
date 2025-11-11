@@ -1,9 +1,9 @@
 @if(!chatWithBoot()) {
-<div class="boot-card" (click)="goToChat()">
-  <div class="message-info">¡Hola, soy Jhon! ¿Hablamos de chatboots?</div>
-  <div class="profile-photo">
-    <img src="./avatar.png" alt="" height="45" />
+<div class="flex gap-2 bg-transparent cursor-pointer h-[62px]" (click)="goToChat()">
+  <div class="rounded-t-3xl rounded-bl-3xl p-2 bg-white flex items-center">
+    ¡Hola, soy Jhon! ¿Hablamos de chatboots?
   </div>
+  <p-avatar image="./avatar.png" class="mr-2" size="xlarge" shape="circle" />
 </div>
 } @else {
 <app-chat></app-chat>

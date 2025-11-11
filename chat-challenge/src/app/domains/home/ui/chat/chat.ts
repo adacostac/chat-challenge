@@ -1,5 +1,8 @@
+import { NgClass } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ChipModule } from 'primeng/chip';
 import { InputTextModule } from 'primeng/inputtext';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
@@ -10,7 +13,10 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
     ChipModule,
     InputTextModule,
     FormsModule,
-    OverlayBadgeModule
+    OverlayBadgeModule,
+    AvatarModule,
+    AvatarGroupModule,
+    NgClass
   ],
   templateUrl: './chat.html',
   styleUrl: './chat.scss',

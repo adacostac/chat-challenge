@@ -1,9 +1,53 @@
-<div class="layout">
-  <div class="header">header</div>
-  <section class="section">
-    <h1>Welcome to Your AI Assistant</h1>
-    <p-button label="Check" />
-    <app-boot-card></app-boot-card>
+<div class="flex flex-col h-screen bg-white">
+  <div class="flex justify-between items-center flex-initial h-[50px] py-0 px-2 bg-blue-800">
+    <div class="flex items-center gap-1">
+      <span class="text-white text-lg font-bold">1million</span>
+      <span class="text-white text-sm font-semibold rounded-sm py-1 px-2 bg-red-600">bot</span>
+    </div>
+    <div class="hidden md:flex items-center gap-6">
+      <a class="navbar__item" href="#">Chatbots</a>
+      <a class="navbar__item" href="#">Contacto</a>
+      <a class="navbar__item" href="#">Blog</a>
+      <p-button label="Solicita una demo" [rounded]="true" />
+    </div>
+
+    <div class="md:hidden">
+      <p-menu #menu [model]="items" [popup]="true" />
+      <p-button (click)="menu.toggle($event)" icon="pi pi-bars" />
+    </div>
+  </div>
+
+  <section class="flex justify-center items-center flex-[0_0_50%] overflow-auto bg-hero-pattern">
+    <div class="flex justify-center">
+      <h1 class="text-4xl text-white font-bold">
+        IA y asistentes virtuales para revolucionar la empresa
+      </h1>
+    </div>
   </section>
-  <footer class="footer">Footer</footer>
+  <section class="flex justify-center flex-[1_1_auto] bg-red-700">
+    <div class="flex flex-col gap-5 justify-center items-center">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-white text-center mb-10">
+        <div class="flex flex-col items-center gap-1">
+          <p class="text-3xl font-bold">+10 millones</p>
+          <p class="text-xl">de interacciones</p>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <p class="text-3xl font-bold">+90%</p>
+          <p class="text-xl">de respuestas acertadas</p>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <p class="text-3xl font-bold">Personalizado</p>
+          <p class="text-xl">para tu empresa</p>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <p class="text-3xl font-bold">Generación</p>
+          <p class="text-xl">de leads</p>
+        </div>
+      </div>
+      <div class="text-center">
+        <p-button label="Solicita una demo" [rounded]="true" severity="secondary" />
+      </div>
+    </div>
+  </section>
+  <app-boot-card></app-boot-card>
 </div>

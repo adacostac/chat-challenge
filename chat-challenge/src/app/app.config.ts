@@ -1,9 +1,8 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
 import { provideAnimations } from '@angular/platform-browser/animations';
-import Material from '@primeuix/themes/material';
+import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
+import { MyPreset } from '../mypreset';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -14,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     providePrimeNG({
       theme: {
-        preset: Material
+        preset: MyPreset,
       }
     })
   ]

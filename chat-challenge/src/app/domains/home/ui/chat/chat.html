@@ -1,26 +1,28 @@
-<div class="chat-container" [class.minimized]="minimized()">
-  <div class="chat-header">
-    <div class="chat-header__boot-info">
+<div class="w-[350px] h-[480px] bg-white" [class.minimized]="minimized()">
+  <div class="flex items-center justify-between h-[50px] bg-red-700 p-2">
+    <div class="flex items-center gap-2">
       @if(minimized()) {
-      <span class="pi pi-chevron-up chat-header__icon" (click)="minimize()"></span>
+      <span class="pi pi-chevron-up text-white cursor-pointer" (click)="minimize()"></span>
       } @else {
-      <span class="pi pi-chevron-down chat-header__icon" (click)="minimize()"></span>
+      <span class="pi pi-chevron-down text-white cursor-pointer" (click)="minimize()"></span>
       }
-      <div class="chat-header__header--info">
-        <p-overlaybadge severity="success">
-          <img src="./avatar.png" alt="" height="35" class="chat-header__avatar" />
-        </p-overlaybadge>
-        <div class="chat-header__header--info-name">{{ bootName }}</div>
+      <div class="flex items-center gap-2">
+        <p-avatar image="./avatar.png" class="mr-2" size="large" shape="circle" />
+        <p-overlaybadge severity="success"> </p-overlaybadge>
+        <div class="text-white">{{ bootName }}</div>
       </div>
     </div>
     @if(!minimized()) {
-    <span class="pi pi-bars chat-header__icon" (click)="showOptions()"></span>
+    <span class="pi pi-bars text-white cursor-pointer" (click)="showOptions()"></span>
     }
   </div>
 
-  <div class="chat-content">
+  <div class="flex flex-col gap-2 h-[270px] overflow-auto p-2">
     @for(message of messages; track message.text) {
-    <div class="chat-content__message" [class.chat-content__user-message]="message.from === 'user'">
+    <div
+      class="bg-red-100 rounded-bl-3xl rounded-tr-3xl p-5 max-w-[250px]"
+      [class.user-message]="message.from === 'user'"
+    >
       {{ message.text }}
     </div>
     }

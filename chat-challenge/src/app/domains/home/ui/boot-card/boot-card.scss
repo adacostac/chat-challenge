@@ -1,31 +1,5 @@
 :host {
   position: absolute;
-  bottom: 0;
+  bottom: 30px;
   right: 0;
-}
-
-.boot-card {
-  display: flex;
-  gap: 10px;
-  background-color: transparent;
-  width: fit-content;
-  cursor: pointer;
-}
-
-.message-info {
-  border: 1px solid red;
-  border-top-left-radius: 25px;
-  border-bottom-left-radius: 25px;
-  border-top-right-radius: 25px;
-  padding: 10px;
-  background-color: #f0f0f0;
-  display: flex;
-  align-items: center;
-}
-
-.profile-photo {
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-  overflow: hidden;
 }
