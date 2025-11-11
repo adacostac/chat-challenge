@@ -10,9 +10,9 @@ import { Chat } from '../chat/chat';
   styleUrl: './boot-card.scss',
 })
 export class BootCard {
-  protected chatWithBoot = signal(false);
+  public chatWithBoot = signal(false);
 
-  protected goToChat() {
+  public goToChat() {
     this.chatWithBoot.set(true);
   }
 }

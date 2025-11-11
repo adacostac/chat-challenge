@@ -5,78 +5,8 @@
   align-self: flex-end;
 }
 
-.chat-suggestions {
-  height: 95px;
-  border: 1px solid #e9e9e9;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 10px;
-
-  &__items {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  &__horizontal-snap {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    width: 320px;
-    overflow: hidden;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    text-wrap: nowrap;
-  }
-
-  &__element {
-    scroll-snap-align: start;
-    cursor: pointer;
-  }
-
-  &__scroll-icon {
-    border-radius: 10px;
-  }
-
-  &__icon {
-    color: #cb3232;
-    cursor: pointer;
-  }
-}
-
-.chat-sender {
-  height: 50px;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 10px 0 10px;
-
-  &__message {
-    border-bottom-right-radius: 10px;
-  }
-
-  &__message-icon {
-    cursor: pointer;
-    background-color: #cb3232;
-    width: 50px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    border-top-left-radius: 20px;
-  }
-}
-
-.chat-container.minimized {
-  height: auto;
-  max-height: 64px;
-  overflow: visible;
-}
-
-.chat-container.minimized .chat-content,
-.chat-container.minimized .chat-suggestions,
-.chat-container.minimized .chat-sender {
-  display: none;
+.horizontal-snap {
+  scroll-snap-type: x mandatory;
 }
 
 .options-menu {

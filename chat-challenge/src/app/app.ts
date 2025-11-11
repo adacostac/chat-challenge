@@ -1,6 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, signal, ViewChild } from '@angular/core';
+import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { BootCard } from './domains/home/ui/boot-card/boot-card';
 
 @Component({
@@ -8,13 +11,17 @@ import { BootCard } from './domains/home/ui/boot-card/boot-card';
   imports: [
     ButtonModule,
     MenuModule,
-    BootCard
+    BootCard,
+    AvatarModule,
+    OverlayBadgeModule,
+    NgClass
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-
+  @ViewChild(BootCard) suggestionContainer?: BootCard;
+  protected readonly isOpenChat = signal(false);
 
   protected readonly title = signal('chat-challenge');
   protected readonly items = [
@@ -34,5 +41,12 @@ export class App {
       label: 'Solicita una demo',
       icon: 'pi pi-envelope'
     }
-  ]
+  ];
+
+  protected openChat(): void {
+    this.isOpenChat.set(true);
+    if (this.suggestionContainer) {
+      this.suggestionContainer.chatWithBoot.set(true);
+    }
+  }
 }

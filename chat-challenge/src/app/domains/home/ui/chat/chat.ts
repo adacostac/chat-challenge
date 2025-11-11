@@ -96,6 +96,7 @@ export class Chat implements AfterViewInit, OnDestroy {
 
   protected minimize() {
     this.minimized.update(value => !value);
+    this.showOptionsMenu.set(false);
   }
 
   protected showOptions() {

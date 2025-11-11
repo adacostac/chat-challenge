@@ -1,4 +1,8 @@
-<div class="w-[350px] h-[480px] bg-white" [class.minimized]="minimized()">
+<div
+  [ngClass]="
+    minimized() ? 'h-[50px]' : 'flex flex-col h-screen w-screen bg-white md:h-[520px] md:w-[350px] '
+  "
+>
   <div class="flex items-center justify-between h-[50px] bg-red-700 p-2">
     <div class="flex items-center gap-2">
       @if(minimized()) {
@@ -17,7 +21,13 @@
     }
   </div>
 
-  <div class="flex flex-col gap-2 h-[270px] overflow-auto p-2">
+  <div
+    [ngClass]="
+      minimized()
+        ? 'hidden'
+        : 'flex flex-1 flex-col gap-2 md:h-[300px] overflow-auto p-2 border border-red-50'
+    "
+  >
     @for(message of messages; track message.text) {
     <div
       class="bg-red-100 rounded-bl-3xl rounded-tr-3xl p-5 max-w-[250px]"
@@ -28,35 +38,44 @@
     }
   </div>
 
-  <div class="chat-suggestions">
+  <div
+    [ngClass]="
+      minimized()
+        ? 'hidden'
+        : 'md:h-[115px] overflow-hidden flex flex-col gap-2 p-2 border border-red-100'
+    "
+  >
     <span>Estas son algunas de las cosas que me puedes preguntar:</span>
-    <div class="chat-suggestions__items">
+    <div class="flex items-center gap-2">
       @if(showAngelLeft()) {
       <div class="chat-suggestions__scroll-icon">
-        <span class="pi pi-angle-left chat-suggestions__icon" (click)="moveToLeft()"></span>
+        <span class="pi pi-angle-left text-red-700 cursor-pointer" (click)="moveToLeft()"></span>
       </div>
       }
 
-      <div class="chat-suggestions__horizontal-snap" #suggestionContainer>
+      <div
+        class="flex gap-2 md:w-[320px] overflow-hidden overscroll-x-contain snap-mandatory text-nowrap horizontal-snap"
+        #suggestionContainer
+      >
         @for (suggestion of suggestions; track suggestion.id) {
-        <div class="chat-suggestions__element">
+        <div class="snap-start cursor-pointer">
           <p-chip [label]="suggestion.text" />
         </div>
         }
       </div>
       @if(showAngelRight()) {
-      <div class="chat-suggestions__scroll-icon">
-        <span class="pi pi-angle-right chat-suggestions__icon" (click)="moveToRight()"></span>
+      <div class="rounded-lg">
+        <span class="pi pi-angle-right text-red-700 cursor-pointer" (click)="moveToRight()"></span>
       </div>
       }
     </div>
   </div>
 
-  <div class="chat-sender">
-    <div class="chat-sender__message">
+  <div [ngClass]="minimized() ? 'hidden' : 'md:h-[50px] flex justify-between pt-2 pr-2 pb-0 pl-2'">
+    <div>
       <input type="text" pInputText [(ngModel)]="value" />
     </div>
-    <div class="chat-sender__message-icon">
+    <div class="cursor-pointer bg-red-600 w-[50px] justify-center items-center flex rounded-tl-3xl">
       <span class="pi pi-send" style="color: white; cursor: pointer"></span>
     </div>
   </div>

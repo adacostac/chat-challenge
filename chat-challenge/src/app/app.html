@@ -39,15 +39,27 @@
           <p class="text-3xl font-bold">Personalizado</p>
           <p class="text-xl">para tu empresa</p>
         </div>
-        <div class="flex flex-col items-center gap-1">
-          <p class="text-3xl font-bold">Generación</p>
-          <p class="text-xl">de leads</p>
-        </div>
       </div>
       <div class="text-center">
         <p-button label="Solicita una demo" [rounded]="true" severity="secondary" />
       </div>
     </div>
   </section>
-  <app-boot-card></app-boot-card>
+  <app-boot-card
+    #bootCard
+    class="md:block"
+    [ngClass]="isOpenChat() ? 'md:block' : 'hidden'"
+  ></app-boot-card>
+  @if(!isOpenChat()) {
+  <div
+    class="md:hidden"
+    style="position: absolute; bottom: 65px; right: 20px"
+    #refWilcard
+    (click)="openChat()"
+  >
+    <p-overlay-badge value="" severity="success" class="inline-flex">
+      <p-avatar class="p-overlay-badge" image="./avatar.png" size="xlarge" shape="circle" />
+    </p-overlay-badge>
+  </div>
+  }
 </div>
