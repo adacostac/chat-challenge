@@ -20,7 +20,7 @@ export class ChatMessageService {
     4: 'Se utilizan en atención al cliente, soporte técnico, comercio electrónico, recursos humanos, educación y en cualquier flujo donde sea útil automatizar la interacción con usuarios.'
   };
 
-  sendMessage(text: string, answerById?: number): void {
+  public sendMessage(text: string, answerById?: number): void {
     const now = Date.now();
     const userMsg: ChatMessageModel = { from: 'user', text, time: now, answerId: answerById };
     this._push(userMsg);
@@ -50,6 +50,4 @@ export class ChatMessageService {
   private _answerById(id: number): string {
     return this._answers[id] ?? 'Lo siento, no tengo esa respuesta guardada.';
   }
-
-  clear() { this._messages.next([]); }
 }

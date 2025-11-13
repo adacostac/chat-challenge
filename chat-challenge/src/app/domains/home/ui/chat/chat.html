@@ -55,6 +55,7 @@
       <div
         class="flex gap-2 md:w-[320px] overflow-hidden overscroll-x-contain snap-mandatory text-nowrap horizontal-snap"
         #suggestionContainer>
+        @let suggestions = suggestionsList.value()!;
         @for (suggestion of suggestions; track suggestion.id) {
         <div class="snap-start cursor-pointer">
           <p-button [label]="suggestion.text" [rounded]="true" severity="warn" (onClick)="send(suggestion)" />
@@ -71,7 +72,7 @@
 
   <form (submit)="send(); $event.preventDefault()">
     <div [ngClass]="toggleChat() ? 'hidden' : 'md:h-[50px] flex justify-between p-2'">
-      <input type="text" pInputText [(ngModel)]="value" pSize="small" fluid [ngModelOptions]="{standalone: true}" />
+      <input type="text" pInputText [(ngModel)]="message" pSize="small" fluid [ngModelOptions]="{standalone: true}" />
       <div class="cursor-pointer bg-red-600 w-[50px] justify-center items-center flex rounded-tl-3xl">
         <span class="pi pi-send" style="color: white; cursor: pointer" (click)="send()"></span>
       </div>
@@ -83,7 +84,7 @@
 @if(showOptionsMenu()) {
 <div class="options-menu" [class.is-open]="showOptionsMenu()">
   <ul>
-    @for(option of optionsMenuItems; track option.icon) {
+    @for(option of optionsMenuItems.value(); track option.icon) {
     <li class="options-menu__item" (click)="closeOptions()">
       <div style="display: flex; gap: 10px">
         <span class="{{ option.icon }}"></span>{{ option.label }}

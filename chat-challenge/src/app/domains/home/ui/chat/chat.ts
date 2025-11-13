@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
@@ -7,7 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
 import { InputTextModule } from 'primeng/inputtext';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { ChatMessageModel } from '../../models/chat-message.model';
 import { ChatMessageService } from '../../services/chat-message';
 
@@ -31,32 +32,43 @@ interface suggestion { text: string; id: number; }
 export class Chat implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   private readonly _chatMessageService = inject(ChatMessageService);
 
-  protected value = '';
-  protected toggleChat = signal(false);
-  protected showOptionsMenu = signal(false);
-  protected showAngelLeft = signal(false);
-  protected showAngelRight = signal(true);
-  private onScroll = () => this.checkPositions();
+  protected message = '';
+  protected readonly toggleChat = signal(false);
+  protected readonly showOptionsMenu = signal(false);
+  protected readonly showAngelLeft = signal(false);
+  protected readonly showAngelRight = signal(true);
   protected readonly bootName = "Jhon Doe";
   protected messagesSub?: Subscription;
   public messages: ChatMessageModel[] = [];
   private lastMessagesLength = 0;
 
+  private onScroll = () => this.checkPositions();
   @ViewChild('suggestionContainer', { read: ElementRef }) suggestionContainer?: ElementRef<HTMLDivElement>;
   @ViewChild('scrollContainer', { static: false }) private scrollContainer!: ElementRef;
 
-  protected suggestions = [
-    { text: '¿Qué es un chatbot?', id: 1 },
-    { text: '¿Cómo funcionan los chatbots?', id: 2 },
-    { text: '¿Cuáles son los beneficios de usar chatbots?', id: 3 },
-    { text: '¿Dónde se utilizan los chatbots?', id: 4 }
-  ];
+  protected readonly suggestionsList = rxResource({
+    params: () => null,
+    stream: () => {
+      return of([
+        { text: '¿Qué es un chatbot?', id: 1 },
+        { text: '¿Cómo funcionan los chatbots?', id: 2 },
+        { text: '¿Cuáles son los beneficios de usar chatbots?', id: 3 },
+        { text: '¿Dónde se utilizan los chatbots?', id: 4 }
+      ])
+    }
+  });
 
-  protected readonly optionsMenuItems = [
-    { label: 'Política de privacidad', icon: 'pi pi-shield' },
-    { label: 'Seleccionar idioma', icon: 'pi pi-globe' },
-    { label: 'Olvidar mis datos', icon: 'pi pi-info-circle' }
-  ]
+
+  protected readonly optionsMenuItems = rxResource({
+    params: () => null,
+    stream: () => {
+      return of([
+        { label: 'Política de privacidad', icon: 'pi pi-shield' },
+        { label: 'Seleccionar idioma', icon: 'pi pi-globe' },
+        { label: 'Olvidar mis datos', icon: 'pi pi-info-circle' }
+      ])
+    }
+  });
 
   ngOnInit(): void {
     this.messagesSub = this._chatMessageService.messages$.subscribe(m => this.messages = m);
@@ -136,10 +148,10 @@ export class Chat implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy 
     if (answer) {
       this._chatMessageService.sendMessage(answer.text, answer.id);
     } else {
-      const text = this.value?.trim();
+      const text = this.message?.trim();
       if (!text) return;
       this._chatMessageService.sendMessage(text);
-      this.value = '';
+      this.message = '';
     }
   }
 
