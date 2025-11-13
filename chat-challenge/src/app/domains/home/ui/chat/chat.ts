@@ -1,11 +1,17 @@
 import { NgClass } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
+import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
 import { InputTextModule } from 'primeng/inputtext';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
+import { Subscription } from 'rxjs';
+import { ChatMessageModel } from '../../models/chat-message.model';
+import { ChatMessageService } from '../../services/chat-message';
+
+interface suggestion { text: string; id: number; }
 
 @Component({
   selector: 'app-chat',
@@ -16,29 +22,28 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
     OverlayBadgeModule,
     AvatarModule,
     AvatarGroupModule,
-    NgClass
+    NgClass,
+    ButtonModule
   ],
   templateUrl: './chat.html',
   styleUrl: './chat.scss',
 })
-export class Chat implements AfterViewInit, OnDestroy {
+export class Chat implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
+  private readonly _chatMessageService = inject(ChatMessageService);
+
   protected value = '';
-  protected minimized = signal(false);
+  protected toggleChat = signal(false);
   protected showOptionsMenu = signal(false);
   protected showAngelLeft = signal(false);
   protected showAngelRight = signal(true);
   private onScroll = () => this.checkPositions();
   protected readonly bootName = "Jhon Doe";
+  protected messagesSub?: Subscription;
+  public messages: ChatMessageModel[] = [];
+  private lastMessagesLength = 0;
 
   @ViewChild('suggestionContainer', { read: ElementRef }) suggestionContainer?: ElementRef<HTMLDivElement>;
-
-  protected messages = [
-    { from: 'boot', text: '¡Hola! ¿En qué puedo ayudarte hoy?' },
-    { from: 'user', text: '¿Qué es un chatbot?' },
-    { from: 'boot', text: 'Un chatbot es un programa de inteligencia artificial diseñado para simular conversaciones humanas.' },
-    { from: 'user', text: '¿Cómo funcionan los chatbots?' },
-    { from: 'boot', text: 'Los chatbots funcionan utilizando procesamiento de lenguaje natural (NLP) para entender y responder a las consultas de los usuarios.' }
-  ];
+  @ViewChild('scrollContainer', { static: false }) private scrollContainer!: ElementRef;
 
   protected suggestions = [
     { text: '¿Qué es un chatbot?', id: 1 },
@@ -53,11 +58,31 @@ export class Chat implements AfterViewInit, OnDestroy {
     { label: 'Olvidar mis datos', icon: 'pi pi-info-circle' }
   ]
 
+  ngOnInit(): void {
+    this.messagesSub = this._chatMessageService.messages$.subscribe(m => this.messages = m);
+  }
+
   ngAfterViewInit(): void {
     const el = this.suggestionContainer?.nativeElement;
     if (!el) return;
     el.addEventListener('scroll', this.onScroll, { passive: true });
     setTimeout(() => this.checkPositions(), 0);
+  }
+
+  ngAfterViewChecked(): void {
+    if (!this.scrollContainer) return;
+    if (this.messages.length !== this.lastMessagesLength) {
+      this.scrollToBottom();
+      this.lastMessagesLength = this.messages.length;
+    }
+  }
+
+  private scrollToBottom(): void {
+    try {
+      const el = this.scrollContainer.nativeElement;
+      el.scrollTop = el.scrollHeight;
+    } catch (err) {
+    }
   }
 
   protected moveToRight() {
@@ -95,7 +120,7 @@ export class Chat implements AfterViewInit, OnDestroy {
   }
 
   protected minimize() {
-    this.minimized.update(value => !value);
+    this.toggleChat.update(value => !value);
     this.showOptionsMenu.set(false);
   }
 
@@ -107,9 +132,21 @@ export class Chat implements AfterViewInit, OnDestroy {
     this.showOptionsMenu.set(false);
   }
 
+  protected send(answer?: suggestion) {
+    if (answer) {
+      this._chatMessageService.sendMessage(answer.text, answer.id);
+    } else {
+      const text = this.value?.trim();
+      if (!text) return;
+      this._chatMessageService.sendMessage(text);
+      this.value = '';
+    }
+  }
+
   ngOnDestroy(): void {
     const el = this.suggestionContainer?.nativeElement;
     if (!el) return;
     el.removeEventListener('scroll', this.onScroll);
+    this.messagesSub?.unsubscribe();
   }
 }

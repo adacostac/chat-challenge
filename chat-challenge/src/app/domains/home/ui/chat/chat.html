@@ -1,11 +1,16 @@
-<div
-  [ngClass]="
-    minimized() ? 'h-[50px]' : 'flex flex-col h-screen w-screen bg-white md:h-[520px] md:w-[350px] '
-  "
->
+@if(toggleChat()) {
+<div class="rounded-full bg-white w-[150px] flex items-center gap-2" style="position: fixed; bottom: 20px; right: 20px"
+  (click)="minimize()">
+  <p-avatar image="./avatar.png" class="mr-2" size="large" shape="circle" />
+  <p-overlaybadge severity="success"><span class="text-sm">En linea</span> </p-overlaybadge>
+</div>
+} @else {
+<div [ngClass]="
+    toggleChat() ? '' : 'flex flex-col h-screen w-screen bg-white md:h-[520px] md:w-[350px] '
+  ">
   <div class="flex items-center justify-between h-[50px] bg-red-700 p-2">
     <div class="flex items-center gap-2">
-      @if(minimized()) {
+      @if(toggleChat()) {
       <span class="pi pi-chevron-up text-white cursor-pointer" (click)="minimize()"></span>
       } @else {
       <span class="pi pi-chevron-down text-white cursor-pointer" (click)="minimize()"></span>
@@ -16,35 +21,29 @@
         <div class="text-white">{{ bootName }}</div>
       </div>
     </div>
-    @if(!minimized()) {
+    @if(!toggleChat()) {
     <span class="pi pi-bars text-white cursor-pointer" (click)="showOptions()"></span>
     }
   </div>
 
-  <div
-    [ngClass]="
-      minimized()
+  <div #scrollContainer [ngClass]="
+      toggleChat()
         ? 'hidden'
         : 'flex flex-1 flex-col gap-2 md:h-[300px] overflow-auto p-2 border border-red-50'
-    "
-  >
+    ">
     @for(message of messages; track message.text) {
-    <div
-      class="bg-red-100 rounded-bl-3xl rounded-tr-3xl p-5 max-w-[250px]"
-      [class.user-message]="message.from === 'user'"
-    >
+    <div class="bg-red-100 rounded-bl-3xl rounded-tr-3xl p-5 max-w-[250px]"
+      [class.user-message]="message.from === 'user'">
       {{ message.text }}
     </div>
     }
   </div>
 
-  <div
-    [ngClass]="
-      minimized()
+  <div [ngClass]="
+      toggleChat()
         ? 'hidden'
         : 'md:h-[115px] overflow-hidden flex flex-col gap-2 p-2 border border-red-100'
-    "
-  >
+    ">
     <span>Estas son algunas de las cosas que me puedes preguntar:</span>
     <div class="flex items-center gap-2">
       @if(showAngelLeft()) {
@@ -55,11 +54,10 @@
 
       <div
         class="flex gap-2 md:w-[320px] overflow-hidden overscroll-x-contain snap-mandatory text-nowrap horizontal-snap"
-        #suggestionContainer
-      >
+        #suggestionContainer>
         @for (suggestion of suggestions; track suggestion.id) {
         <div class="snap-start cursor-pointer">
-          <p-chip [label]="suggestion.text" />
+          <p-button [label]="suggestion.text" [rounded]="true" severity="warn" (onClick)="send(suggestion)" />
         </div>
         }
       </div>
@@ -71,15 +69,16 @@
     </div>
   </div>
 
-  <div [ngClass]="minimized() ? 'hidden' : 'md:h-[50px] flex justify-between pt-2 pr-2 pb-0 pl-2'">
-    <div>
-      <input type="text" pInputText [(ngModel)]="value" />
+  <form (submit)="send(); $event.preventDefault()">
+    <div [ngClass]="toggleChat() ? 'hidden' : 'md:h-[50px] flex justify-between p-2'">
+      <input type="text" pInputText [(ngModel)]="value" pSize="small" fluid [ngModelOptions]="{standalone: true}" />
+      <div class="cursor-pointer bg-red-600 w-[50px] justify-center items-center flex rounded-tl-3xl">
+        <span class="pi pi-send" style="color: white; cursor: pointer" (click)="send()"></span>
+      </div>
     </div>
-    <div class="cursor-pointer bg-red-600 w-[50px] justify-center items-center flex rounded-tl-3xl">
-      <span class="pi pi-send" style="color: white; cursor: pointer"></span>
-    </div>
-  </div>
+  </form>
 </div>
+}
 
 @if(showOptionsMenu()) {
 <div class="options-menu" [class.is-open]="showOptionsMenu()">

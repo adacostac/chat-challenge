@@ -43,7 +43,7 @@ export class App {
     }
   ];
 
-  protected openChat(): void {
+  public openChat(): void {
     this.isOpenChat.set(true);
     if (this.suggestionContainer) {
       this.suggestionContainer.chatWithBoot.set(true);

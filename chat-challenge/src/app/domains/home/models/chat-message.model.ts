@@ -1,0 +1,1 @@
+export interface ChatMessageModel { from: 'user' | 'bot'; text: string; time?: number; answerId?: number; }
